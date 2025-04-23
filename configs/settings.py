@@ -16,7 +16,8 @@ class Settings(BaseSettings):
     domain_name: str = "seokar.click"
     api_domain: str = "api.seokar.click"
     api_port: int = 8000
-    database_url: str = "sqlite:///./keywords.db"
+    # Updated default database URL for PostgreSQL
+    database_url: str = os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/keywords")
     telegram_bot_token: Optional[str] = None
     scraper_api_key: Optional[str] = None
     debug: bool = False
@@ -135,7 +136,3 @@ if __name__ == "__main__":
     print(f"Keyword Scraper API URL: {settings.keyword_scraper_api_url}")
     print(f"Keyword Suggestions API URL: {settings.keyword_suggestions_api_url}")
     print(f"Trends API URL: {settings.trends_api_url}")
-
-    # Example of logging with sensitive data
-    # logger.info(f"Settings: {settings.__dict__}") # Removed to prevent accidental logging of sensitive data
-    logger.info("Example log message with potential sensitive data: %s, %s", "some_data", settings.telegram_bot_token if settings else "No Settings Loaded")
